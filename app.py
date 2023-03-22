@@ -99,8 +99,9 @@ print(make_choice_brand)
 # In[14]:
 
 
-min_year,max_year = (data['model_year'].min() , data['model_year'].max())
-year_range = st.slider(label='Choose year',min_value=min_year,max_value=max_year)
+min_year = data['model_year'].min()
+max_year = data['model_year'].max()
+year_range = st.slider(label='Choose year',min_value=min_year,max_value=max_year,value=(min_year,max_year))
 
 # In[15]:
 
@@ -172,7 +173,7 @@ print(data['age_category'].head())
 
 
 st.write("""
-#### Let's see how price is affected by the number of miles on the car, paint color, or if it's 4 wheel drive.""")
+Let's see how price is affected by the number of miles on the car, paint color, or if it's 4 wheel drive.""")
 
 list_for_scatter = ['odometer','age','age_category']
 choice_for_scatter = st.selectbox('Price dependency on ',list_for_scatter)

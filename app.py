@@ -12,18 +12,19 @@ import streamlit as st
 
 
 data = pd.read_csv('vehicles_us.csv')
+print(data.head())
 
 
 # In[3]:
 
-
-data['model_year'] = data['model_year'].fillna(data['model_year'].min())
-data['cylinders'] = data['cylinders'].fillna(data['cylinders'].min())
-data['odometer'] = data['odometer'].fillna(data['odometer'].median())
-data['model_year'] = data['model_year'].astype('int64')
+data['model_year'] = data['model_year'].fillna(data['model_year'].median())
+data['cylinders'] = data.groupby('model')['cylinders'].ffill(data['cylinders'].median())
+data['odometer'] = data.groupby('model')['odometer'].ffill(data['odometer'].median())
+data['is_4wd'] = data.groupby('model')['is_4wd'].ffill(0)
+data['paint_color'] = data['paint_color'].fillna('Unknown')
 data['date_posted'] = pd.to_datetime(data['date_posted'],format='%Y-%m-%d')
-data['odometer'] = data['odometer'].astype('int64')
-
+data['model_year'] = data['model_year'].astype('int64')
+print(data.info())
 
 # In[4]:
 
@@ -59,7 +60,7 @@ print(data.groupby('brands')['brands'].count().sort_values(ascending=False))
 
 st.header("Market of used cars. Original data")
 st.write("""
-         ####Filter the data below to see the ads by manufacturer
+         Filter the data below to see the ads by manufacturer
          """)
 show_new_cars = st.checkbox('Include new cars from dealers')
 
@@ -99,8 +100,7 @@ print(make_choice_brand)
 
 
 min_year,max_year = (data['model_year'].min() , data['model_year'].max())
-year_range = st.slider('Choose year',value=(min_year,max_year),min_value=min_year,max_value=max_year)
-
+year_range = st.slider(label='Choose year',min_value=min_year,max_value=max_year)
 
 # In[15]:
 
@@ -119,13 +119,13 @@ print(actual_range)
 
 
 filtered_type = data[(data['brands']==make_choice_brand) & (data['model_year'].isin(list(actual_range)))]
-st.table(filtered_type)
+st.table(filtered_type.sample(10))
 
 
 # In[18]:
 
 
-print(filtered_type)
+print(filtered_type.sample(10))
 
 
 # In[19]:
@@ -146,7 +146,6 @@ st.plotly_chart(histogram_1)
 
 # In[20]:
 
-
 histogram_1.show()
 
 
@@ -166,7 +165,7 @@ data['age_category'] = data['age'].apply(age_category)
 # In[22]:
 
 
-print(data['age_category'])
+print(data['age_category'].head())
 
 
 # In[23]:

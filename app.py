@@ -28,7 +28,7 @@ print(data.info())
 
 # In[4]:
 
-
+print(data[data.duplicated()].count())
 print(data['condition'].unique())
 
 

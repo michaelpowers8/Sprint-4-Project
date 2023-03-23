@@ -91,7 +91,7 @@ print(actual_range)
 
 # %%
 filtered_type = data[(data['brands']==make_choice_brand) & (data['model_year'].isin(list(actual_range)))]
-st.table(filtered_type)
+st.table(filtered_type.head(10))
 
 # %%
 print(filtered_type)
@@ -110,7 +110,7 @@ histogram_1.update_layout(title="<b> Split of price by {}<b>".format(choice_for_
 st.plotly_chart(histogram_1)
 
 # %%
-histogram_1.show()
+#histogram_1.show()
 
 # %%
 data['age'] = 2023 - data['model_year']
@@ -136,7 +136,7 @@ scatter_2.update_layout(title="<b> Price vs {}<b>".format(choice_for_scatter))
 st.plotly_chart(scatter_2)
 
 # %%
-scatter_2.show()
+#scatter_2.show()
 
 # %% [markdown]
 # In conclusion, one of the biggest things that affects the price of a vehicle is the number of miles on it. The more miles a car has, the less valuable it is. The older a car is, it will go down in value, until a certain age, about 60, then it goes up in value. However, the outlier vehicles that are 80+ years old. lose some of their antique value. The condition of the car has some effect the price of the vehicle.

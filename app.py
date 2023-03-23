@@ -80,7 +80,7 @@ print(make_choice_brand)
 
 # %%
 min_year,max_year = (data['model_year'].min() , data['model_year'].max())
-year_range = st.slider(label='Choose year',min_value=min_year,max_value=max_year,value=(min_year,max_year))
+year_range = st.slider(label='Choose year',value=(min_year,max_year))
 
 # %%
 print(year_range)
